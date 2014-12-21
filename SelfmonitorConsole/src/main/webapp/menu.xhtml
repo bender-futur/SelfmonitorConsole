@@ -1,0 +1,26 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:rich="http://richfaces.org/rich">
+    <h:outputStylesheet library="css" name="main.css"/>
+    <div class="left">
+        <h:form>    
+            <p>Root metrics</p>
+            <rich:tree value="#{treeBean.rootNodes}" var="item" selectionChangeListener="#{treeBean.selectionChanged}">
+                <rich:treeNode>
+                    #{item.name}
+                </rich:treeNode>
+            </rich:tree>
+        
+            <p>Subsystems</p>
+            <rich:tree value="#{treeBean.subsystemNodes}" var="item">
+                <rich:treeNode>
+                    #{item.name}
+                </rich:treeNode>
+            </rich:tree>
+        </h:form>
+        
+    </div>
+</ui:composition>
