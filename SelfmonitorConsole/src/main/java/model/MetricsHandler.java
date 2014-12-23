@@ -22,17 +22,10 @@ import org.jboss.dmr.ModelNode;
  */
 public class MetricsHandler {
 
-    private ModelControllerClient client;
-    private final String HOST = "localhost";
-    private final int PORT = 9990;
+    private final ModelControllerClient client;
     
-    public MetricsHandler(){
-        try {
-            client = ModelControllerClient.Factory.create(
-                    InetAddress.getByName(HOST), PORT);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(TreeBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public MetricsHandler(ModelControllerClient client){
+        this.client = client;
     }
     
     public List<String> getAllMetrics(){

@@ -3,24 +3,41 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:rich="http://richfaces.org/rich">
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j">
     <h:outputStylesheet library="css" name="main.css"/>
     <div class="left">
         <h:form>    
-            <p>Root metrics</p>
-            <rich:tree value="#{treeBean.rootNodes}" var="item" selectionChangeListener="#{treeBean.selectionChanged}">
-                <rich:treeNode>
+            
+            
+            <p>Metrics</p>
+            <rich:tree value="#{treeBean.subsystemNodes}" var="item"
+                       selectionChangeListener="#{treeBean.subsystemSelectionChanged}"
+                       toggleType="client" selectionType="ajax">
+                <rich:treeNode type="subsystem">
                     #{item.name}
                 </rich:treeNode>
-            </rich:tree>
-        
-            <p>Subsystems</p>
-            <rich:tree value="#{treeBean.subsystemNodes}" var="item">
-                <rich:treeNode>
+                <rich:treeNode type="metricitem">
                     #{item.name}
                 </rich:treeNode>
             </rich:tree>
         </h:form>
-        
+    </div>
+    <div class="right">
+        <a4j:outputPanel ajaxRendered="true" layout="block">
+            <rich:panel header="Current Selection" rendered="#{not empty treeBean.currentSelection}">
+                <h:outputText value="Metric name:" />
+                <h:outputText value="#{treeBean.currentSelection.name}" />
+                <h:panelGroup rendered="#{treeBean.currentSelection.leaf}">
+                    <fieldset>
+                        <legend>Metric values</legend>
+                        <h:panelGrid columnClasses="bold" columns="2">
+                            <h:outputText value="Path:" />
+                            <h:outputText value="TODO" />
+                        </h:panelGrid>
+                    </fieldset>
+                </h:panelGroup>
+            </rich:panel>
+        </a4j:outputPanel>
     </div>
 </ui:composition>

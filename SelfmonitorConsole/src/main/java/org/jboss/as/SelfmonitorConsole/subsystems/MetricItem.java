@@ -7,19 +7,14 @@ import javax.swing.tree.TreeNode;
  *
  * @author vojtech
  */
-public class MetricItem implements TreeNode {
+public class MetricItem extends NamedNode implements TreeNode {
 
     private Subsystem subsystem;
-    private String name;
-
-    public String getName() {
-        return name;
+    
+    public MetricItem() {
+        this.setType("metricitem");
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    
     public Subsystem getSubsystem() {
         return subsystem;
     }
@@ -52,8 +47,16 @@ public class MetricItem implements TreeNode {
         return true;
     }
 
-    public Enumeration children() {
-        return null;
+    public Enumeration<TreeNode> children() {
+        return new Enumeration<TreeNode>() {
+            public boolean hasMoreElements() {
+                return false;
+            }
+ 
+            public TreeNode nextElement() {
+                return null;
+            }
+        };
     }
     
 }

@@ -6,18 +6,28 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.swing.tree.TreeNode;
 import model.MetricsHandler;
+import org.jboss.as.controller.client.ModelControllerClient;
 
 /**
  *
  * @author vojtech
  */
-public class Subsystem implements TreeNode {
+public class Subsystem extends NamedNode implements TreeNode {
     
-    private String name;
     private final List<MetricItem> metricItems = new ArrayList<MetricItem>();
+    private final ModelControllerClient client;
 
+    public Subsystem(ModelControllerClient client) {
+        this.setType("subsystem");
+        this.client = client;
+    }
+    
     public List<MetricItem> getMetricItems() {
-        MetricsHandler metricsHandler = new MetricsHandler();
+        return metricItems;
+    }
+    
+    public void setMetricItems() {
+        MetricsHandler metricsHandler = new MetricsHandler(client);
         List<String> metrics = metricsHandler.getMetricsOfSubsystem(name);
         for(String metric : metrics){
             MetricItem item = new MetricItem();
@@ -25,15 +35,6 @@ public class Subsystem implements TreeNode {
             item.setParent(this);
             metricItems.add(item);
         }
-        return metricItems;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public TreeNode getChildAt(int i) {
@@ -64,26 +65,4 @@ public class Subsystem implements TreeNode {
         return Iterators.asEnumeration(metricItems.iterator());
     }    
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 11 * hash + (this.name != null ? this.name.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Subsystem other = (Subsystem) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        return true;
-    }
-    
 }
