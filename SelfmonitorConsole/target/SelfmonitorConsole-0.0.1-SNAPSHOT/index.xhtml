@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"    
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
- 
+    <h:outputStylesheet library="css" name="main.css"/>
     <h:head>
     	<title>JSF 2.0 Hello World</title>
     </h:head>
     <h:body>
     	<h3>Server name: #{helloBean.serverName}</h3>
         <ui:include src="menu.xhtml" />
-        
+        <ui:include src="content.xhtml" />
         
     </h:body>
 </html>

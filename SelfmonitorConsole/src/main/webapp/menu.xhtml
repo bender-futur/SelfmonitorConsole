@@ -1,18 +1,17 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:rich="http://richfaces.org/rich"
     xmlns:a4j="http://richfaces.org/a4j">
-    <h:outputStylesheet library="css" name="main.css"/>
     <div class="left">
         <h:form>    
-            
-            
             <p>Metrics</p>
             <rich:tree value="#{treeBean.subsystemNodes}" var="item"
-                       selectionChangeListener="#{treeBean.subsystemSelectionChanged}"
+                       selectionChangeListener="#{treeBean.selectionChanged}"
                        toggleType="client" selectionType="ajax">
                 <rich:treeNode type="subsystem">
                     #{item.name}
@@ -22,22 +21,5 @@
                 </rich:treeNode>
             </rich:tree>
         </h:form>
-    </div>
-    <div class="right">
-        <a4j:outputPanel ajaxRendered="true" layout="block">
-            <rich:panel header="Current Selection" rendered="#{not empty treeBean.currentSelection}">
-                <h:outputText value="Metric name:" />
-                <h:outputText value="#{treeBean.currentSelection.name}" />
-                <h:panelGroup rendered="#{treeBean.currentSelection.leaf}">
-                    <fieldset>
-                        <legend>Metric values</legend>
-                        <h:panelGrid columnClasses="bold" columns="2">
-                            <h:outputText value="Path:" />
-                            <h:outputText value="TODO" />
-                        </h:panelGrid>
-                    </fieldset>
-                </h:panelGroup>
-            </rich:panel>
-        </a4j:outputPanel>
     </div>
 </ui:composition>
