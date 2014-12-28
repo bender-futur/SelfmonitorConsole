@@ -2,8 +2,6 @@ package org.jboss.as.selfmonitor.console.subsystems;
 
 import java.util.Enumeration;
 import javax.swing.tree.TreeNode;
-import org.jboss.as.selfmonitor.console.model.MetricValuesHandler;
-import org.jboss.as.controller.client.ModelControllerClient;
 
 /**
  *
@@ -12,13 +10,9 @@ import org.jboss.as.controller.client.ModelControllerClient;
 public class MetricItem extends NamedNode implements TreeNode {
 
     private Subsystem subsystem;
-    private final ModelControllerClient client;
-    private final MetricValuesHandler valuesHandler;
     
 
-    public MetricItem(ModelControllerClient client) {
-        this.client = client;
-        valuesHandler = new MetricValuesHandler(client);
+    public MetricItem() {
         this.setType("metricitem");
     }
 

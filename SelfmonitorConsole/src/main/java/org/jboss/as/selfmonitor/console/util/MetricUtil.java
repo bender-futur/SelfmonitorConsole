@@ -29,13 +29,4 @@ public class MetricUtil {
             return "";
         }
     }
-    
-    public static String toEqualSign(String source){
-        return "";
-    }
-    
-    public static String toUnderscoreSign(String source){
-        return "";
-    }
-    
 }

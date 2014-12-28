@@ -11,62 +11,68 @@
         <a4j:outputPanel ajaxRendered="true" layout="block">
             <rich:panel header="Current Selection" 
                         rendered="#{not empty contentBean.currentSelection}">
+            <h:form id="filterForm01">
                 <p>Metric name:
                     #{contentBean.currentSelection.name}</p>
                 <fieldset>
                     <legend>Filter</legend>
-                    <h:form id="filterForm01">
-                        <fieldset>
-                            <legend>From</legend>
-                            <h:panelGrid columns="2">
-                                <p:outputLabel for="dateFrom" value="Date:" />
-                                <p:calendar id="dateFrom" value="#{contentBean.dateFrom}" 
-                                            pattern="yyyy-MM-dd"/>
-                                <p:outputLabel for="timeFrom" value="Time:" />
-                                <p:inputText id="timeFrom" />
-                            </h:panelGrid>
-                        </fieldset>
-                        <fieldset>
-                            <legend>To</legend>
-                            <h:panelGrid columns="2">
-                                <p:outputLabel for="dateTo" value="Date:" />
-                                <p:calendar id="dateTo" value="#{contentBean.dateFrom}" 
-                                            pattern="yyyy-MM-dd"/>
-                                <p:outputLabel for="timeTo" value="Time:" />
-                                <p:inputText id="timeTo" />
-                            </h:panelGrid>
-                        </fieldset>
-                        <p:commandButton value="Filter">
-                            <p:ajax event="click" update="filterForm01:text01" 
-                                    listener="#{contentBean.filterDateListener}" />
-                        </p:commandButton>
-                        <h:outputText id="text01" value="#{contentBean.filterDate}" />
-                        
-                    </h:form>
+                    <fieldset>
+                        <legend>From</legend>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="dateFrom" value="Date:" />
+                            <p:calendar id="dateFrom" value="#{contentBean.dateFrom}" 
+                                        pattern="yyyy-MM-dd"/>
+                            <p:outputLabel for="timeFrom" value="Time:" />
+                            <p:inputText id="timeFrom" value="#{contentBean.timeFrom}"
+                                         validatorMessage="Value does not match pattern HH:MM:SS">
+                                <f:validateRegex pattern="^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$" />
+                            </p:inputText>
+                            <p:message for="timeFrom" />
+                        </h:panelGrid>
+                    </fieldset>
+                    <fieldset>
+                        <legend>To</legend>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="dateTo" value="Date:" />
+                            <p:calendar id="dateTo" value="#{contentBean.dateTo}" 
+                                        pattern="yyyy-MM-dd"/>
+                            <p:outputLabel for="timeTo" value="Time:" />
+                            <p:inputText id="timeTo" value="#{contentBean.timeTo}"
+                                         validatorMessage="Value does not match pattern HH:MM:SS">
+                                <f:validateRegex pattern="^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$" />
+                            </p:inputText>
+                            <p:message for="timeTo" />
+                        </h:panelGrid>
+                    </fieldset>
+                    <p:commandButton value="Filter" id="ajax" 
+                                     update="filterForm01:dataTable01" 
+                                     actionListener="#{contentBean.filterDateListener}" />
                 </fieldset>
                 <fieldset>
                     <legend>Data</legend>
-                    <h:outputText rendered="#{empty contentBean.data}" 
-                                  value="No values monitored"></h:outputText>
-                    <h:dataTable rendered="#{not empty contentBean.data}" 
-                                 border="1" 
-                                 value="#{contentBean.data.keySet()}" var="key">
-                        <h:column id="column1">
-                            <f:facet name="header">
-                                <h:outputText value="Date"></h:outputText>
-                            </f:facet>
-                                <h:outputText value="#{key}"></h:outputText>
-                        </h:column>
-                        <h:column id="column2">
-                            <f:facet name="header">
-                                <h:outputText value="Value"></h:outputText>
-                            </f:facet>
-                            <h:outputText value="#{contentBean.data.get(key)}">
-                            </h:outputText>
-                        </h:column>
-                    </h:dataTable>
+                    <h:panelGrid id="dataTable01">
+                        <h:outputText rendered="#{empty contentBean.data}" 
+                                      value="No values monitored"></h:outputText>
+                        <h:dataTable rendered="#{not empty contentBean.data}" 
+                                     border="1" 
+                                     value="#{contentBean.data.keySet()}" var="key">
+                            <h:column id="column1">
+                                <f:facet name="header">
+                                    <h:outputText value="Date"></h:outputText>
+                                </f:facet>
+                                    <h:outputText value="#{key}"></h:outputText>
+                            </h:column>
+                            <h:column id="column2">
+                                <f:facet name="header">
+                                    <h:outputText value="Value"></h:outputText>
+                                </f:facet>
+                                <h:outputText value="#{contentBean.data.get(key)}">
+                                </h:outputText>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGrid>
                 </fieldset>
-                
+            </h:form>
             </rich:panel>
         </a4j:outputPanel>
     </div>

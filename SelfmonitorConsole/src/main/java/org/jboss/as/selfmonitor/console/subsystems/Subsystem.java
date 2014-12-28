@@ -4,7 +4,8 @@ import com.google.common.collect.Iterators;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.tree.TreeNode;
 import org.jboss.as.selfmonitor.console.model.MetricsHandler;
 import org.jboss.as.controller.client.ModelControllerClient;
@@ -17,7 +18,6 @@ public class Subsystem extends NamedNode implements TreeNode {
     
     private final List<MetricItem> metricItems = new ArrayList<MetricItem>();
     private final ModelControllerClient client;
-    private final List<Map.Entry<String, String>> entries = null;
 
     public Subsystem(ModelControllerClient client) {
         this.setType("subsystem");
@@ -32,8 +32,9 @@ public class Subsystem extends NamedNode implements TreeNode {
         MetricsHandler metricsHandler = new MetricsHandler(client);
         List<String> metrics = metricsHandler.getMetricsOfSubsystem(name);
         for(String metric : metrics){
-            MetricItem item = new MetricItem(client);
+            MetricItem item = new MetricItem();
             item.setName(metric);
+            item.setShortName(createShortName(metric));
             item.setParent(this);
             metricItems.add(item);
         }
@@ -65,6 +66,28 @@ public class Subsystem extends NamedNode implements TreeNode {
 
     public Enumeration children() {
         return Iterators.asEnumeration(metricItems.iterator());
-    }    
+    }   
+    
+    private String createShortName(String longName){
+        String[] parts = longName.split("_");
+        StringBuilder tmp = new StringBuilder();
+        if(parts.length > 1){
+            for(int i = 2; i < parts.length; i++){
+                tmp.append(parts[i]);
+                if(i != parts.length-1){
+                    tmp.append("_");
+                }
+            }
+            
+            //debug
+//            String message = "Created name " + tmp.toString() + " from " + longName;
+//            Logger.getLogger(Subsystem.class.getName()).log(Level.INFO, message);
+            
+            return tmp.toString();
+        }
+        else{
+            return longName;
+        }
+    }
 
 }

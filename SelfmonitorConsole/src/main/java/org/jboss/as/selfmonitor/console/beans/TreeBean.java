@@ -15,6 +15,7 @@ import javax.swing.tree.TreeNode;
 import org.jboss.as.selfmonitor.console.model.MetricsHandler;
 import org.jboss.as.selfmonitor.console.subsystems.Subsystem;
 import org.jboss.as.controller.client.ModelControllerClient;
+import org.jboss.as.selfmonitor.console.model.ModelHandler;
 import org.richfaces.component.AbstractTree;
 import org.richfaces.event.TreeSelectionChangeEvent;
 import org.jboss.as.selfmonitor.console.util.MetricUtil;
@@ -30,10 +31,10 @@ public class TreeBean implements Serializable {
     private ContentBean contentBean;
     private ModelControllerClient client;
     private List<TreeNode> subsystemNodes;
-    private List<TreeNode> rootNodes;
     private List<String> metrics;
     private MetricsHandler metricsHandler;
     private TreeNode currentSelection = null;
+    private String serverName;
 
     @PostConstruct
     public void init() {
@@ -45,9 +46,17 @@ public class TreeBean implements Serializable {
         }
         metricsHandler = new MetricsHandler(client);
         subsystemNodes = new ArrayList<TreeNode>();
-        rootNodes = new ArrayList<TreeNode>();
         metrics = metricsHandler.getAllMetrics();
         contentBean.setClient(client);
+        setServerName(ModelHandler.getServerName(client));
+    }
+
+    public String getServerName() {
+        return serverName;
+    }
+
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
     }
 
     public ContentBean getContentBean() {
@@ -63,7 +72,6 @@ public class TreeBean implements Serializable {
     }
     
     public void selectionChanged(TreeSelectionChangeEvent selectionChangeEvent) {
-//         considering only single selection
         List<Object> selection = new ArrayList<Object>(selectionChangeEvent.getNewSelection());
         Object currentSelectionKey = selection.get(0);
         AbstractTree tree = (AbstractTree) selectionChangeEvent.getSource();
@@ -81,37 +89,16 @@ public class TreeBean implements Serializable {
             Subsystem subsystem = new Subsystem(client);
             if(!metricSubsystemName.equals("")){
                 subsystem.setName(metricSubsystemName);
+                subsystem.setMetricItems();
             }
             else{
                 subsystem.setName(metric);
-            }
-            
-            if(!metricSubsystemName.equals("")){
-                subsystem.setMetricItems();
             }
             if(!subsystemNodes.contains(subsystem)){
                 subsystemNodes.add(subsystem);
             }
         }
         return subsystemNodes;
-    }
-    
-    public List<TreeNode> getRootNodes(){
-        for(String metric : metrics){
-            String metricSubsystemName = MetricUtil.getSubsystemName(metric);
-            if(metricSubsystemName.equals("")){
-                Subsystem subsystem = new Subsystem(client);
-                subsystem.setName(metric);
-                if(!rootNodes.contains(subsystem)){
-                    rootNodes.add(subsystem);
-                }
-            }
-        }
-        return rootNodes;
-    }
-    
-    public void setRootNodes(List<TreeNode> rootNodes) {
-        this.rootNodes = rootNodes;
     }
     
     public TreeNode getCurrentSelection() {
@@ -122,6 +109,5 @@ public class TreeBean implements Serializable {
         this.currentSelection = currentSelection;
         contentBean.setCurrentSelection(currentSelection);
     }
-    
             
 }

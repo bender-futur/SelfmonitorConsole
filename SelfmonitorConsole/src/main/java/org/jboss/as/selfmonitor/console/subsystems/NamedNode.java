@@ -9,6 +9,15 @@ import java.io.Serializable;
 public class NamedNode implements Serializable {
     protected String type;
     protected String name;
+    protected String shortName;
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
  
     public String getName() {
         return name;
