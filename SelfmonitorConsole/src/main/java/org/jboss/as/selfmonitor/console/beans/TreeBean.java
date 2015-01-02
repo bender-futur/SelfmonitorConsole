@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.swing.tree.TreeNode;
 import org.jboss.as.selfmonitor.console.model.MetricsHandler;
 import org.jboss.as.selfmonitor.console.subsystems.Subsystem;
@@ -21,7 +21,7 @@ import org.richfaces.event.TreeSelectionChangeEvent;
 import org.jboss.as.selfmonitor.console.util.MetricUtil;
 
 @ManagedBean(name = "treeBean")
-@SessionScoped
+@ViewScoped
 public class TreeBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
