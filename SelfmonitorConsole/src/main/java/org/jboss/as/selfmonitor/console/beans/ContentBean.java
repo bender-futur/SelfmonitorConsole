@@ -310,7 +310,7 @@ public class ContentBean implements Serializable {
             String message = "Cannot calculate statistic of non-numeric value: " 
                     + value;
             Logger.getLogger(ContentBean.class.getName()).log(
-                Level.SEVERE, message);
+                Level.INFO, message);
             numericValues = false;
         }
         return numericValue;
