@@ -40,7 +40,6 @@ public class MetricValuesHandler {
         ModelNode op = new ModelNode();
         op.get(OP_ADDR).set(addr.toModelNode());
         op.get(ClientConstants.OP).set("read-all-values");
-//        op.get("show-enabled").set(enabled ? "true" : "false");
         ModelNode result = null;
         if(client != null){
             try {

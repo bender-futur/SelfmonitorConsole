@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  *
- * @author vojtech
+ * @author Vojtech Schlemmer
  */
 public class MetricUtil {
 

@@ -20,6 +20,10 @@ import org.richfaces.component.AbstractTree;
 import org.richfaces.event.TreeSelectionChangeEvent;
 import org.jboss.as.selfmonitor.console.util.MetricUtil;
 
+/**
+ *
+ * @author Vojtech Schlemmer
+ */
 @ManagedBean(name = "treeBean")
 @ViewScoped
 public class TreeBean implements Serializable {

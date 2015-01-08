@@ -9,7 +9,7 @@ import org.jboss.dmr.ModelNode;
 
 /**
  *
- * @author vojtech
+ * @author Vojtech Schlemmer
  */
 public class ModelHandler {
 

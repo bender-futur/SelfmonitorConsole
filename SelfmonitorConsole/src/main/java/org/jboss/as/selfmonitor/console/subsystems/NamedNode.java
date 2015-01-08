@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author vojtech
+ * @author Vojtech Schlemmer
  */
 public class NamedNode implements Serializable {
     protected String type;

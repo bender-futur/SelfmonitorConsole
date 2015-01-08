@@ -4,15 +4,13 @@ import com.google.common.collect.Iterators;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.tree.TreeNode;
 import org.jboss.as.selfmonitor.console.model.MetricsHandler;
 import org.jboss.as.controller.client.ModelControllerClient;
 
 /**
  *
- * @author vojtech
+ * @author Vojtech Schlemmer
  */
 public class Subsystem extends NamedNode implements TreeNode {
     
@@ -31,12 +29,16 @@ public class Subsystem extends NamedNode implements TreeNode {
     public void setMetricItems() {
         MetricsHandler metricsHandler = new MetricsHandler(client);
         List<String> metrics = metricsHandler.getMetricsOfSubsystem(name);
+        boolean firstIter = true;
         for(String metric : metrics){
             MetricItem item = new MetricItem();
-            item.setName(metric);
-            item.setShortName(createShortName(metric));
+            item.setMetricId(metric);
+            String itemShortName = createShortName(metric);
+            item.setName(itemShortName);
+            item.setShortName(itemShortName);
             item.setParent(this);
             metricItems.add(item);
+            firstIter = false;
         }
     }
 
@@ -78,11 +80,6 @@ public class Subsystem extends NamedNode implements TreeNode {
                     tmp.append("_");
                 }
             }
-            
-            //debug
-//            String message = "Created name " + tmp.toString() + " from " + longName;
-//            Logger.getLogger(Subsystem.class.getName()).log(Level.INFO, message);
-            
             return tmp.toString();
         }
         else{

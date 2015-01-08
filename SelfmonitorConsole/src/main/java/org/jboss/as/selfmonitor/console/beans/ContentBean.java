@@ -28,7 +28,7 @@ import org.primefaces.model.chart.LineChartModel;
 
 /**
  *
- * @author vojtech
+ * @author Vojtech Schlemmer
  */
 @ManagedBean(name = "contentBean")
 @ViewScoped
@@ -143,7 +143,7 @@ public class ContentBean implements Serializable {
             MetricItem currsel = (MetricItem) currentSelection;
             Date dateFromWithTime = addTimeToDate(dateFrom, timeFrom);
             Date dateToWithTime = addTimeToDate(dateTo, timeTo);
-            data = valuesHandler.getValuesBetweenDates(currsel.getName(), 
+            data = valuesHandler.getValuesBetweenDates(currsel.getMetricId(), 
                     dateFromWithTime, dateToWithTime);
             if(!data.isEmpty()){
                 setStatistics();
@@ -168,7 +168,7 @@ public class ContentBean implements Serializable {
         if(currentSelection != null && currentSelection instanceof MetricItem){
             MetricValuesHandler valuesHandler = new MetricValuesHandler(client);
             MetricItem currsel = (MetricItem) currentSelection;
-            data = valuesHandler.getAllValues(currsel.getName());
+            data = valuesHandler.getAllValues(currsel.getMetricId());
             if(!data.isEmpty()){
                 setStatistics();
             }
@@ -231,7 +231,7 @@ public class ContentBean implements Serializable {
             int secondPosition = (metricSortedValues.size()-1)/2;
             Long firstValue = values.get(firstPosition);
             Long secondValue = values.get(secondPosition);
-            medianValue = firstValue+secondValue/2;
+            medianValue = (firstValue+secondValue)/2;
         }
         else{
             int medianPosition = (metricSortedValues.size()-1)/2;

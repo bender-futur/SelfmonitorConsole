@@ -5,15 +5,23 @@ import javax.swing.tree.TreeNode;
 
 /**
  *
- * @author vojtech
+ * @author Vojtech Schlemmer
  */
 public class MetricItem extends NamedNode implements TreeNode {
 
     private Subsystem subsystem;
-    
+    private String metricId;
 
     public MetricItem() {
         this.setType("metricitem");
+    }
+
+    public String getMetricId() {
+        return metricId;
+    }
+
+    public void setMetricId(String metricId) {
+        this.metricId = metricId;
     }
 
     public Subsystem getSubsystem() {
